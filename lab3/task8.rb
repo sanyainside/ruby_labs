@@ -35,7 +35,7 @@ end
 
 
 # players["Андрій"] = nil
-# players["Лев"] = ""
+# players["Влад"] = ""
 
 # # Відбираємо гравців без заданої позиції
 # missing_positions = players.select do |_name, position|

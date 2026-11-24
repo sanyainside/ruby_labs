@@ -10,9 +10,9 @@ choice = gets.to_s.strip
 sorted_players =
   case choice
   when "1"
-    PLAYERS.sort_by { |name, _position| name }.to_h  # PLAYERS.sort { |first, second| first[0] <=> second[0] }.to_h
+    PLAYERS.sort_by { |name, _position| name }.to_h # PLAYERS.sort { |a, b| a[0] <=> b[0] }.to_h
   when "2"
-    PLAYERS.sort_by { |name, position| [position, name] }.to_h  # PLAYERS.sort { |first, second| second[0] <=> first[0] }.to_h
+    PLAYERS.sort_by { |name, position| [position, name] }.to_h  # PLAYERS.sort { |a, b| [a[1], a[0]] <=> [b[1], b[0]] }.to_h
   else
     abort "Неправильний вибір. Потрібно ввести 1 або 2."
   end
