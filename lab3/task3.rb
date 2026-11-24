@@ -22,5 +22,3 @@ puts "\nВідсортований хеш:"
 sorted_players.each do |name, position|
   puts "#{name}: #{position}"
 end
-
-PLAYERS.sort { |first, second| first[0] <=> second[0] }.to_h
