@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get "pages/about"
+  resources :bookings do
+    delete :destroy_all, on: :collection
+  end
   resources :users
   get "hi/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -1,0 +1,22 @@
+<div class="bg-white text-dark rounded p-3 mt-3">
+  <nav class="nav nav-tabs mb-3" aria-label="Офісні будівлі">
+    <%= link_to "Усі будівлі", bookings_path,
+          class: @selected_building ? "nav-link" : "nav-link active" %>
+
+    <% @buildings.each do |building| %>
+      <%= link_to building, bookings_path(building: building),
+            class: building == @selected_building ? "nav-link active" : "nav-link" %>
+    <% end %>
+  </nav>
+
+  <nav class="nav nav-tabs" aria-label="Поверхи">
+    <%= link_to "Усі поверхи", bookings_path(building: @selected_building),
+          class: @selected_floor ? "nav-link" : "nav-link active" %>
+
+    <% @floors.each do |floor| %>
+      <%= link_to "Поверх #{floor}",
+            bookings_path(building: @selected_building, floor: floor),
+            class: floor.to_s == @selected_floor ? "nav-link active" : "nav-link" %>
+    <% end %>
+  </nav>
+</div>
