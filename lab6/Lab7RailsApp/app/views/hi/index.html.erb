@@ -1,0 +1,11 @@
+<% content_for :title, "Hi #{@stud}!" %>
+
+<h1>Hello, <%= @stud %>!</h1>
+
+<p>
+  Час: <%= @current_time.strftime("%d.%m.%Y %H:%M:%S %:z") %>
+</p>
+
+<% 5.times do |index| %>
+  <p><%= index %>. <%= @message %></p>
+<% end %>
