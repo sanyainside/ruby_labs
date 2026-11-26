@@ -3,8 +3,10 @@ Rails.application.routes.draw do
   resources :bookings do
     delete :destroy_all, on: :collection
   end
-  resources :users
+  devise_for :users
+    root "bookings#index"
   get "hi/index"
+  get "profile", to: "profiles#show", as: :profile
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

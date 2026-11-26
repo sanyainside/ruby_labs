@@ -1,0 +1,34 @@
+<% content_for :title, "Особистий кабінет" %>
+
+<h1>Особистий кабінет</h1>
+<p><strong><%= current_user.name %></strong></p>
+
+<h2 class="h4 mt-4">Мої бронювання</h2>
+
+<% if @bookings.empty? %>
+  <p>У тебе ще немає бронювань.</p>
+<% else %>
+  <ul class="list-group">
+    <% @bookings.each do |booking| %>
+      <li class="list-group-item">
+        <p class="mb-2">
+          <strong>Переговорна <%= booking.room %></strong>
+          · <%= booking.building %>, поверх <%= booking.floor %>
+        </p>
+
+        <div class="d-flex flex-wrap gap-2">
+          <%= link_to "Переглянути", booking_path(booking),
+                class: "btn btn-sm btn-outline-primary" %>
+
+          <%= link_to "Редагувати", edit_booking_path(booking),
+                class: "btn btn-sm btn-outline-secondary" %>
+
+          <%= button_to "Видалити", booking_path(booking),
+                method: :delete,
+                class: "btn btn-sm btn-outline-danger",
+                form: { data: { turbo_confirm: "Видалити це бронювання?" } } %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

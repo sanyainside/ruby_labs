@@ -1,9 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  name: MyString
-  email: MyString
+  name: Власник бронювання
+  email: owner@example.com
 
 two:
-  name: MyString
-  email: MyString
+  name: Інший користувач
+  email: other@example.com
+
+admin:
+  name: Адміністратор
+  email: admin@example.com
+  role: admin

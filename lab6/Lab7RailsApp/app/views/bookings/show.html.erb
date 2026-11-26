@@ -2,8 +2,24 @@
 
 <%= render @booking %>
 
-<div>
-  <%= link_to "Edit this booking", edit_booking_path(@booking) %> |
+<p><strong>Автор:</strong> <%= @booking.user.name %></p>
 
-  <%= button_to "Destroy this booking", @booking, method: :delete %>
-</div>
+<% if @booking.description.present? %>
+  <h2 class="h5">Опис зустрічі</h2>
+  <p><%= @booking.description %></p>
+<% end %>
+
+<% if @booking.image.attached? %>
+  <%= image_tag @booking.image,
+        alt: "Фото переговорної #{@booking.room}",
+        width: 480,
+        class: "img-fluid rounded d-block my-3" %>
+<% end %>
+
+<% if current_user && (current_user.admin? || @booking.user_id == current_user.id) %>
+  <div>
+    <%= link_to "Edit this booking", edit_booking_path(@booking) %> |
+
+    <%= button_to "Destroy this booking", @booking, method: :delete %>
+  </div>
+<% end %>

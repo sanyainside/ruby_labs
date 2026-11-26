@@ -1,5 +1,8 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :set_booking, only: %i[show edit update destroy]
+  before_action :require_owner_or_admin, only: %i[edit update destroy]
+  before_action :require_admin, only: :destroy_all
 
   # GET /bookings or /bookings.json
   def index
@@ -16,7 +19,7 @@ class BookingsController < ApplicationController
                       .distinct.order(:floor).pluck(:floor)
 
     bookings = bookings.where(floor: @selected_floor) if @selected_floor
-    @bookings = bookings.order(:id)
+    @bookings = bookings.includes(:user).with_attached_image.order(:id)
   end
 
   # GET /bookings/1 or /bookings/1.json
@@ -25,7 +28,7 @@ class BookingsController < ApplicationController
 
   # GET /bookings/new
   def new
-    @booking = Booking.new
+    @booking = current_user.bookings.build
   end
 
   # GET /bookings/1/edit
@@ -34,7 +37,7 @@ class BookingsController < ApplicationController
 
   # POST /bookings or /bookings.json
   def create
-    @booking = Booking.new(booking_params)
+    @booking = current_user.bookings.build(booking_params)
 
     respond_to do |format|
       if @booking.save
@@ -71,7 +74,7 @@ class BookingsController < ApplicationController
   end
 
   def destroy_all
-    deleted_count = Booking.delete_all
+    deleted_count = Booking.destroy_all.size
 
     redirect_to bookings_path,
                 notice: "Видалено бронювань: #{deleted_count}.",
@@ -86,6 +89,20 @@ class BookingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def booking_params
-      params.expect(booking: [ :building, :floor, :room, :booked_by, :starts_at, :ends_at ])
+      params.expect(
+        booking: %i[building floor room booked_by starts_at ends_at description image]
+      )
     end
+end
+
+def require_owner_or_admin
+  return if current_user.admin? || @booking.user_id == current_user.id
+
+  head :forbidden
+end
+
+def require_admin
+  return if current_user.admin?
+
+  head :forbidden
 end
